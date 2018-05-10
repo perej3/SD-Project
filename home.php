@@ -43,9 +43,20 @@
           </ul>
         
          <ul class="navbar-nav ml-auto">
-            <li class="nav-item float-right">
-                <a class="nav-link" href="logout.php">Logout</a>   
-            </li>
+             <?php
+                if(isset($_SESSION['username'])){
+                echo '<li class="nav-item float-right">';
+                echo  '<a class="nav-link" href="logout.php">Logout</a>';   
+                echo '</li>';
+                  
+            }
+            else{
+                echo '<li class="nav-item float-right">';
+                echo '<a class="nav-link" href="login.php">Login</a>';   
+                echo '</li>';
+            }
+            ?>
+            
             <li class="nav-item active float-right">
                 <a class="nav-link" href="register.php">Register</a>    
             </li>
@@ -61,18 +72,6 @@
 
     <div class="container">
         <div class= "jumbotron">
-            <?php
-           if (isset($_GET['logout']) && $_GET['logout'] == 1){
-            echo "You have been logged out!<hr/>";
-        }
-            if(isset($_SESSION['username'])){
-                echo "You are logged in as ".$_SESSION['username'];
-                  
-            }
-            else{
-                echo "<p>You are not logged in. You dont have access to all the features</p>";
-            }
-            ?>
             <center><h1>Recipe Mania</h1></center>
             <br/>
             <br/>
@@ -123,9 +122,29 @@
         </div>
         
     </div>
-
+        
+        <?php
+            echo "<br/>";
+            echo"<br/>";
+           if (isset($_GET['logout']) && $_GET['logout'] == 1){
+            echo "You have been logged out!<hr/>";
+        }
+            if(isset($_SESSION['username'])){
+                echo "<center>";
+                echo '<div class="p-3 mb-2 bg-success text-white">';
+                echo 'You are logged in as '.$_SESSION['username'];
+                echo '</div>';
+                echo "</center>";;
+                  
+            }
+            else{
+                echo '<center><div class="p-3 mb-2 bg-danger text-white">You are not logged in!!</div></center>';
+            }
+    ?>
+            
     </div>
     </div>
+    
     </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>

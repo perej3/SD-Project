@@ -56,9 +56,13 @@
 
         <center><img src="images\logo.png" width="200px" height="200px"></center>
 <div class= "jumbotron">
-            <h3>Login</h3>
+            <h3>Forgot Password?</h3>
         
-<form method="post" action="login.php">
+<form method="post" action="forgot.php">
+  <div class="form-group">
+    <label>Email</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+  </div>
   <div class="form-group">
     <label>Username</label>
     <input type="text" class="form-control" id="username" name="username" placeholder="Username">
@@ -67,10 +71,6 @@
     <label>Password</label>
     <input type="password" class="form-control" id="password" name="password" placeholder="Password">
   </div>
-  <div class="form-group">
-    <a href="forgot.php">Forgot password?</a>
-    </div>
-
     
   <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Log In</button>
  
@@ -85,28 +85,39 @@
    else{ 
     if(isset($_POST['Submit'])){
         
+        $email = $_POST['email'];
         $username = $_POST['username'];
         $password = $_POST['password'];
  
         
-    if(empty($username) || empty($password)){
+    if(empty($email) || empty($username) || empty($password)){
                        echo "<p class= 'text-danger'>Make sure that all your fields are entered</p>";
                    }
                    else{
                        $link = mysqli_connect("localhost","root","","project",3306);
                        
-                       $sql = "SELECT * FROM users WHERE Username='$username' AND User_password='$password'";
+                        $sql ="UPDATE Users
+                               SET User_Password = '$password'
+                                WHERE Username='$username' AND Email='$email'";
                        
                        $result = mysqli_query($link,$sql) or die(mysqli_error($link));
                        
-                       if (mysqli_num_rows($result) == 1){
-                           //log user in
-                           $_SESSION['username'] = $username;
-                           header("location:home.php");
+                       if (mysqli_affected_rows($link) == true){
+                           
+                           header("location:login.php");
+                        
+                           //mail
+                           
+                           $to = $email;
+                           $subject = "Password Change Notification";
+                           $message = "Your password was recently changed!";
+                           
+                           $retval = mail ($to, $subject, $message);
+                           
                        }
                        else{
                            echo "<br/>";
-                           echo "<p class= 'text-danger'>Incorrect username or password</p>";
+                           echo "<p class= 'text-danger'>Incorrect username or email</p>";
                        }
                    }
     }

@@ -1,4 +1,7 @@
- <!DOCTYPE html>
+<?php
+    session_start();
+?>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Recipe Mania</title>
@@ -39,9 +42,19 @@
           </ul>
         
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item float-right">
-                <a class="nav-link" href="logout.php">Logout</a>   
-            </li>
+            <?php
+                if(isset($_SESSION['username'])){
+                echo '<li class="nav-item float-right">';
+                echo  '<a class="nav-link" href="logout.php">Logout</a>';   
+                echo '</li>';
+                  
+            }
+            else{
+                echo '<li class="nav-item float-right">';
+                echo '<a class="nav-link" href="login.php">Login</a>';   
+                echo '</li>';
+            }
+            ?>
             <li class="nav-item active float-right">
                 <a class="nav-link" href="register.php">Register</a>    
             </li>
@@ -53,18 +66,7 @@
 
         <center><img src="images\logo.png" width="200px" height="200px"></center>
 <div class= "jumbotron">
-    <?php
-           if (isset($_GET['logout']) && $_GET['logout'] == 1){
-            echo "You have been logged out!<hr/>";
-        }
-            if(isset($_SESSION['username'])){
-                echo "You are logged in as ".$_SESSION['username'];
-                  
-            }
-            else{
-                echo "<p>You are not logged in. You dont have access to all the features</p>";
-            }
-    ?>
+    
     
             <h3>Submit your Creation...</h3>
             <p>Enter all the required fields to submit your creation to the website</p>
@@ -131,7 +133,24 @@
 
 
 ?>
-    
+    <?php
+            echo "<br/>";
+            echo"<br/>";
+           if (isset($_GET['logout']) && $_GET['logout'] == 1){
+            echo "You have been logged out!<hr/>";
+        }
+            if(isset($_SESSION['username'])){
+                echo "<center>";
+                echo '<div class="p-3 mb-2 bg-success text-white">';
+                echo 'You are logged in as '.$_SESSION['username'];
+                echo '</div>';
+                echo "</center>";
+                  
+            }
+            else{
+                echo '<center><div class="p-3 mb-2 bg-danger text-white">You are not logged in!!</div></center>';
+            }
+    ?>
     </div>
     
     </body>
