@@ -1,4 +1,7 @@
- <!DOCTYPE html>
+<?php
+    session_start();
+?>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Recipe Mania</title>
@@ -34,18 +37,21 @@
             <a class="nav-link" href="browse.php">Browse Creations</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="userbrowse.php">Browse User Creations</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="about.php">About Us</a>
         </li>
           </ul>
         
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item float-right">
+            <li class="nav-item  float-right">
                 <a class="nav-link" href="login.php">User Login</a>   
             </li>
-            <li class="nav-item active float-right">
+            <li class="nav-item float-right">
                 <a class="nav-link" href="register.php">Register User</a>    
             </li>
-            <li class="nav-item float-right">
+            <li class="nav-item active float-right">
                 <a class="nav-link" href="loginchef.php">Chef Login</a>   
             </li>
             <li class="nav-item float-right">
@@ -59,15 +65,11 @@
 
         <center><img src="images\logo.png" width="200px" height="200px"></center>
 <div class= "jumbotron">
-            <h3>Recipe Mania</h3>
-            <p>A recipe has no soul... You as the cook must bring the soul to the recipe. So what are you waiting for? Grab your apron and get ready to start your culinary adventure!!</p>
-        
-<form method="post" action="register.php">
-  <div class="form-group">
-    <label>Email address</label>
-    <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-  </div>
+            <h3>Chef Login</h3>
+    
+
+<form method="post" action="loginchef.php">
+    
   <div class="form-group">
     <label>Username</label>
     <input type="text" class="form-control" id="username" name="username" placeholder="Username">
@@ -76,89 +78,55 @@
     <label>Password</label>
     <input type="password" class="form-control" id="password" name="password" placeholder="Password">
   </div>
-    <div class="form-group">
-    <label>First Name</label>
-    <input type="text" class="form-control" id="name" name="name" placeholder="First Name">
-  </div>
-    <div class="form-group">
-    <label>Last Name</label>
-    <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name">
-  </div>
+  <div class="form-group">
+    <a href="forgot.php">Forgot password?</a>
+    </div>
+
     
-  <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Submit</button>
+  <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Log In</button>
  
 </form>
+
+</div>
+    <?php
     
-   <?php
-    
+    if(isset($_SESSION['username'])){
+                //user is already logged in, so no need to process form
+                header("location:home.php");
+            }
+   else{ 
     if(isset($_POST['Submit'])){
+        
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $first_name = $_POST['name'];
-        $last_name = $_POST['lname'];
-        $email = $_POST['email'];
-        $error = false;
+ 
         
-        
-    
-        if(empty($username)){
-            echo "<br/>";
-            echo "<p class= 'text-danger'>Please enter your username</p>";
-            
-            $error = true;
-        }
-        if(empty($password)){
-            
-            echo "<br/>";
-            echo "<p class= 'text-danger'>Please enter your password</p>";
-            $error = true;
-           
-        }
-        if(empty($first_name)){
-            
-            echo "<br/>";
-            echo "<p class= 'text-danger'>Please enter your first name</p>";
-            $error = true;
-            
-        }
-        if(empty($last_name)){
-            
-            echo "<br/>";
-            echo "<p class= 'text-danger'>Please enter your last name</p>";
-            $error = true;
-            
-        }
-        if(empty($email)){
-            
-            echo "<br/>";
-            echo "<p class= 'text-danger'>Please enter your email</p>";
-            $error = true;
-            
-        }
-    if($error == true){
-        
-        echo "<br/>";
-         echo "<p class= 'text-danger'>Make sure that all your credentials are entered</p>";
-        
+    if(empty($username) || empty($password)){
+                       echo "<p class= 'text-danger'>Make sure that all your fields are entered</p>";
+                   }
+                   else{
+                       $link = mysqli_connect("localhost","root","","project",3306);
+                       
+                       $sql = "SELECT * FROM chefs WHERE Chef_username='$username' AND Chef_password='$password'";
+                       
+                       $result = mysqli_query($link,$sql) or die(mysqli_error($link));
+                       
+                       if (mysqli_num_rows($result) == 1){
+                           //log user in
+                           $_SESSION['username'] = $username;
+                           header("location:home.php");
+                       }
+                       else{
+                           echo "<br/>";
+                           echo "<p class= 'text-danger'>Incorrect username or password</p>";
+                       }
+                   }
     }
-        else{
-            
-        $link = mysqli_connect("localhost","root","","project",3306);
-        
-        $sql = "INSERT INTO users (Username,User_password,Name,Surname,Email) VALUES ('$username','$password','$first_name','$last_name','$email')";
-        
-        mysqli_query($link, $sql);
-        header('Location: '.'login.php');
-            
-        }
-    }
-        
+   }
 
 
 
 ?>
-    
-    </div>
     
     </body>
     
@@ -167,5 +135,3 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     
 </html>
-
-

@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Recipe Mania</title>
@@ -34,21 +34,24 @@
             <a class="nav-link" href="browse.php">Browse Creations</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="userbrowse.php">Browse User Creations</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="about.php">About Us</a>
         </li>
           </ul>
         
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item float-right">
+            <li class="nav-item  float-right">
                 <a class="nav-link" href="login.php">User Login</a>   
             </li>
-            <li class="nav-item active float-right">
+            <li class="nav-item float-right">
                 <a class="nav-link" href="register.php">Register User</a>    
             </li>
-            <li class="nav-item float-right">
+            <li class="nav-item  float-right">
                 <a class="nav-link" href="loginchef.php">Chef Login</a>   
             </li>
-            <li class="nav-item float-right">
+            <li class="nav-item active float-right">
                 <a class="nav-link" href="registerchef.php">Register Chef</a>   
             </li>
         </ul>
@@ -61,8 +64,8 @@
 <div class= "jumbotron">
             <h3>Recipe Mania</h3>
             <p>A recipe has no soul... You as the cook must bring the soul to the recipe. So what are you waiting for? Grab your apron and get ready to start your culinary adventure!!</p>
-        
-<form method="post" action="register.php">
+            
+<form method="post" action="registerchef.php">
   <div class="form-group">
     <label>Email address</label>
     <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
@@ -83,7 +86,11 @@
     <div class="form-group">
     <label>Last Name</label>
     <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name">
-  </div>
+    </div>    
+    <div class="form-group">
+    <label>Institute</label>
+    <input type="text" class="form-control" id="qual" name="qual" placeholder="Institute">
+    </div>
     
   <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Submit</button>
  
@@ -97,6 +104,7 @@
         $first_name = $_POST['name'];
         $last_name = $_POST['lname'];
         $email = $_POST['email'];
+        $qual = $_POST['qual'];
         $error = false;
         
         
@@ -135,6 +143,12 @@
             $error = true;
             
         }
+        if(empty($qual) || $qual != "ITS"){
+            echo "<br/>";
+            echo "<p class= 'text-danger'>Please enter a valid institution</p>";
+            
+            $error = true;
+        }
     if($error == true){
         
         echo "<br/>";
@@ -145,7 +159,7 @@
             
         $link = mysqli_connect("localhost","root","","project",3306);
         
-        $sql = "INSERT INTO users (Username,User_password,Name,Surname,Email) VALUES ('$username','$password','$first_name','$last_name','$email')";
+        $sql = "INSERT INTO chefs (Chef_username,Chef_password,email,Name,Surname) VALUES ('$username','$password','$email','$first_name','$last_name')";
         
         mysqli_query($link, $sql);
         header('Location: '.'login.php');

@@ -37,16 +37,25 @@
             <a class="nav-link" href="browse.php">Browse Creations</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="userbrowse.php">Browse User Creations</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="about.php">About Us</a>
         </li>
           </ul>
         
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active float-right">
-                <a class="nav-link" href="login.php">Login</a>   
+                <a class="nav-link" href="login.php">User Login</a>   
             </li>
             <li class="nav-item float-right">
-                <a class="nav-link" href="register.php">Register</a>    
+                <a class="nav-link" href="register.php">Register User</a>    
+            </li>
+            <li class="nav-item float-right">
+                <a class="nav-link" href="loginchef.php">Chef Login</a>   
+            </li>
+            <li class="nav-item float-right">
+                <a class="nav-link" href="registerchef.php">Register Chef</a>   
             </li>
         </ul>
       
@@ -57,8 +66,10 @@
         <center><img src="images\logo.png" width="200px" height="200px"></center>
 <div class= "jumbotron">
             <h3>Login</h3>
-        
+    
+
 <form method="post" action="login.php">
+    
   <div class="form-group">
     <label>Username</label>
     <input type="text" class="form-control" id="username" name="username" placeholder="Username">
@@ -76,10 +87,10 @@
  
 </form>
 
+</div>
     <?php
     
     if(isset($_SESSION['username'])){
-                //user is already logged in, so no need to process form
                 header("location:home.php");
             }
    else{ 
@@ -115,8 +126,6 @@
 
 
 ?>
-    
-    </div>
     
     </body>
     

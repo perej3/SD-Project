@@ -37,6 +37,9 @@
             <a class="nav-link" href="browse.php">Browse Creations</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="userbrowse.php">Browse User Creations</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="about.php">About Us</a>
         </li>
           </ul>
@@ -51,13 +54,22 @@
             }
             else{
                 echo '<li class="nav-item float-right">';
-                echo '<a class="nav-link" href="login.php">Login</a>';   
+                echo '<a class="nav-link" href="login.php">User Login</a>';   
                 echo '</li>';
+                echo '<li class="nav-item float-right">';
+                echo '<a class="nav-link" href="register.php">Register User</a>';
+                echo '</li>';
+                echo '<li class="nav-item float-right">';
+                echo '<a class="nav-link" href="loginchef.php">Chef Login</a>';
+                echo  '</li>';
+                echo '<li class="nav-item float-right">';
+                echo '<a class="nav-link" href="registerchef.php">Register Chef</a>';
+                echo '</li>';
+                  
+            
             }
             ?>
-            <li class="nav-item active float-right">
-                <a class="nav-link" href="register.php">Register</a>    
-            </li>
+            
         </ul>
       
     

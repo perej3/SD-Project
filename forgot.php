@@ -37,6 +37,9 @@
             <a class="nav-link" href="browse.php">Browse Creations</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="userbrowse.php">Browse User Creations</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="about.php">About Us</a>
         </li>
           </ul>

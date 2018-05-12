@@ -18,7 +18,6 @@
     </head>
     
        <body background = images\wallpaper.jpg>
-           
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <img src="images\logo.png" width="30px" height="30px">
             <a class="navbar-brand" href="home.php">Recipe Mania</a>
@@ -28,7 +27,7 @@
 
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="home.php">Home</a>
             </li>
         <li class="nav-item">
@@ -37,8 +36,8 @@
         <li class="nav-item">
             <a class="nav-link" href="browse.php">Browse Creations</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="userbrowse.php">Browse User Creations</a>
+        <li class="nav-item active">
+            <a class="nav-link" href="userbrowse.php">Browse User Recipes</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="about.php">About Us</a>
@@ -76,66 +75,93 @@
     
   </div>     
 </nav>
-           
 
         <center><img src="images\logo.png" width="200px" height="200px"></center>
+<div class= "jumbotron">
+    <h3>User created recipes...</h3>
+    
+    <form method="post" action="userbrowse.php">
+    
+  <div class="form-group">
+    <input type="text" name="search" placeholder="Search..">
+  </div>
 
-
-
-    <div class="container">
-        <div class= "jumbotron">
-            <center><h1>Recipe Mania</h1></center>
-            <br/>
-            <br/>
+    
+  <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Search </button>
+ 
+</form>
+   <?php
+        if(isset($_POST['Submit'])){
         
-    <div class="row">
-        <div class="col-md-7">
-            <img src="images\images1.jpg" width="500px" height="300px">
-        </div>
-        <div class="col-md-5">
-            <h2>Browse</h2>
-            <p>Browse through the gallery of mouth watering recipes made by our professional chefs!!</p>
-            <br/>
-            <br/>
+        $search = $_POST['search'];
             
-            <a class="btn btn-primary" href="browse.php">Browse</a>
-        </div>
-    </div>
-        
-    <br/>
-    <br/>
-        
-    <div class="row">
-        <div class="col-md-5">
-            <h2>Have your own recipe?</h2>
-            <p>Share it and if it is good enough for our chefs, it will be displayed and showcased on the website!!</p>
-            <br/>
-            <br/>
-            <a class="btn btn-primary" href="create.php">Create</a>
-        </div>
-        <div class="col-md-7">
-            <img src="images/image2.jpg" width="500px" height="300px">
-        </div>
-    
-    
-    
-    </div>
+            $link = mysqli_connect("localhost", "root", "", "project", 3306);
+								
+				//create the SQL statement
+				$query = "SELECT * FROM recipe WHERE Recipe_name ='$search'";
+				
+				//pass the $query to MySQL through the connection ($link)
+				$result = mysqli_query($link, $query);
             
-    <br/>
-    <br/>
+                
+        }
+    ?>
     
-    <div class="row">
-        <div class="col-md-7">
-            <img src="images/image3.jpg" width="500px" height="250px">
-        </div>
-        <div class="col-md-5">
-            <h2>Our Mobile App...</h2>
-            <p>To start off your cooking adventures we are giving you a helping hand. On our mobile app you can find basic instructions for food prep and even a recommended cookware page to get you started. Mobile application is available for both iOs, Android and Windows.</p>
-        </div>
+    <table class="table">
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+					
+					
+				</tr>
         
-    </div>
-        
-        <?php
+				<?php
+					//process $result
+					while ($row = mysqli_fetch_assoc($result)) {
+						echo "<tr>";
+							echo "<td>".$row['Recipe_name']."</td>";
+							echo "<td>".$row['Recipe_description']."</td>";
+						echo "</tr>";
+					}
+					
+				?>
+			</table>
+    
+    
+    
+    <!-- SECONd ONE -->
+    <?php
+				
+				$link = mysqli_connect("localhost", "root", "", "project", 3306);
+								
+				//create the SQL statement
+				$query = "SELECT * FROM recipe";
+				
+				//pass the $query to MySQL through the connection ($link)
+				$result = mysqli_query($link, $query);
+				
+				
+			?>
+			<table class="table">
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+					
+					
+				</tr>
+				<?php
+					//process $result
+					while ($row = mysqli_fetch_assoc($result)) {
+						echo "<tr>";
+							echo "<td>".$row['Recipe_name']."</td>";
+							echo "<td>".$row['Recipe_description']."</td>";
+						echo "</tr>";
+					}
+					
+				?>
+			</table>
+    
+    <?php
             echo "<br/>";
             echo"<br/>";
            if (isset($_GET['logout']) && $_GET['logout'] == 1){
@@ -146,22 +172,20 @@
                 echo '<div class="p-3 mb-2 bg-success text-white">';
                 echo 'You are logged in as '.$_SESSION['username'];
                 echo '</div>';
-                echo "</center>";;
+                echo "</center>";
                   
             }
             else{
                 echo '<center><div class="p-3 mb-2 bg-danger text-white">You are not logged in!!</div></center>';
             }
     ?>
-            
-    </div>
     </div>
     
     </body>
+    
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     
 </html>
-
 
