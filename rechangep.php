@@ -39,37 +39,18 @@
         <li class="nav-item">
             <a class="nav-link" href="userbrowse.php">Browse User Creations</a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item">
             <a class="nav-link" href="about.php">Contact Us</a>
         </li>
           </ul>
         
         <ul class="navbar-nav ml-auto">
-            <?php
-                if(isset($_SESSION['username'])){
-                echo '<li class="nav-item float-right">';
-                echo  '<a class="nav-link" href="logout.php">Logout</a>';   
-                echo '</li>';
-                  
-            }
-            else{
-                echo '<li class="nav-item float-right">';
-                echo '<a class="nav-link" href="login.php">User Login</a>';   
-                echo '</li>';
-                echo '<li class="nav-item float-right">';
-                echo '<a class="nav-link" href="register.php">Register User</a>';
-                echo '</li>';
-                echo '<li class="nav-item float-right">';
-                echo '<a class="nav-link" href="loginchef.php">Chef Login</a>';
-                echo  '</li>';
-                echo '<li class="nav-item float-right">';
-                echo '<a class="nav-link" href="registerchef.php">Register Chef</a>';
-                echo '</li>';
-                  
-            
-            }
-            ?>
-            
+            <li class="nav-item active float-right">
+                <a class="nav-link" href="login.php">Login</a>   
+            </li>
+            <li class="nav-item float-right">
+                <a class="nav-link" href="register.php">Register</a>    
+            </li>
         </ul>
       
     
@@ -78,36 +59,72 @@
 
         <center><img src="images\logo.png" width="200px" height="200px"></center>
 <div class= "jumbotron">
+            <h3>Forgot Password?</h3>
+        
+<form method="post" action="rechangep.php">
+  <div class="form-group">
+    <label>Email</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+  </div>
+  <div class="form-group">
+    <label>Username</label>
+    <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+  </div>
+    <div class="form-group">
+    <label>Code</label>
+    <input type="text" class="form-control" id="code" name="code" placeholder="Code">
+  </div>
+    <div class="form-group">
+    <label>New Password</label>
+    <input type="text" class="form-control" id="pass" name="pass" placeholder="New password">
+  </div>
     
-            <h3>Contact Us...</h3>
-            <br/>
+  <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Log In</button>
+ 
+</form>
+
+    <?php
     
-            <h4>Our Location</h4>
-                 
-           <center><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d8755.897438282107!2d14.505636918126225!3d35.880024335089146!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x130e5ac2d87c4891%3A0x48ee141582b02a26!2sMCAST!5e0!3m2!1sen!2smt!4v1525803059707" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe></center>
-    
-            <br/>
-                
-           
-        <?php
-            echo "<br/>";
-            echo"<br/>";
-           if (isset($_GET['logout']) && $_GET['logout'] == 1){
-            echo "You have been logged out!<hr/>";
-        }
-            if(isset($_SESSION['username'])){
-                
-                echo "<center>";
-                echo '<div class="p-3 mb-2 bg-success text-white">';
-                echo 'You are logged in as '.$_SESSION['username'];
-                echo '</div>';
-                echo "</center>";
-                  
+    if(isset($_SESSION['username'])){
+                //user is already logged in, so no need to process form
+                header("location:home.php");
             }
-            else{
-                echo '<center><div class="p-3 mb-2 bg-danger text-white">You are not logged in!!</div></center>';
-            }
-    ?>
+   else{ 
+    if(isset($_POST['Submit'])){
+        
+        $email = $_POST['email'];
+        $username = $_POST['username'];
+        $code = $_POST['code'];
+        $password = $_POST['pass'];
+ 
+        
+    if(empty($email) || empty($username) || empty($code) || empty($password)){
+                       echo "<p class= 'text-danger'>Make sure that all your fields are entered</p>";
+                   }
+        else{
+                       $link = mysqli_connect("localhost","root","","project",3306);
+                       $sql = "SELECT * FROM users WHERE Username='$username' AND User_password='$code'";
+                       
+                       $result = mysqli_query($link,$sql) or die(mysqli_error($link));
+                       
+                       if (mysqli_num_rows($result) == 1){
+                        
+                        $sql = "UPDATE Users
+                               SET User_Password = '$password'
+                                WHERE Username='$username' AND Email='$email'";
+                       
+                       $result = mysqli_query($link,$sql) or die(mysqli_error($link));
+                           
+                           header("location:login.php");
+                       }
+                        
+                       
+                   }
+    }
+   }
+
+
+?>
     
     </div>
     
@@ -118,5 +135,3 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     
 </html>
-
-

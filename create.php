@@ -40,7 +40,7 @@
             <a class="nav-link" href="userbrowse.php">Browse User Creations</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="about.php">About Us</a>
+            <a class="nav-link" href="about.php">Contact Us</a>
         </li>
           </ul>
         
@@ -92,6 +92,14 @@
     <label>Recipe Description</label>
     <input type="text" class="form-control" id="recipe_desc" name="recipe_desc" placeholder="Enter recipe description">
   </div>
+    <div class="form-group">
+    <label>Ingredients</label>
+    <input type="text" class="form-control" id="ingredients" name="ingredients" placeholder="Enter recipe ingredients">
+  </div>
+    <div class="form-group">
+    <label>Instructions</label>
+    <input type="text" class="form-control" id="instructions" name="instructions" placeholder="Enter recipe instructions">
+  </div>
     
   <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Submit</button>
  
@@ -102,6 +110,8 @@
     if(isset($_POST['Submit'])){
         $name = $_POST['recipe_name'];
         $description = $_POST['recipe_desc'];
+        $ingredients = $_POST['ingredients'];
+        $instructions = $_POST['instructions'];
         $error = false;
         
         
@@ -120,6 +130,21 @@
             $error = true;
            
         }
+        if(empty($ingredients)){
+            
+            echo "<br/>";
+            echo "<p class= 'text-danger'>Please enter your recipes ingredients</p>";
+            $error = true;
+           
+        }
+        if(empty($instructions)){
+            
+            echo "<br/>";
+            echo "<p class= 'text-danger'>Please enter your recipes instructions</p>";
+            $error = true;
+           
+        }
+        
     if($error == true){
         
         echo "<br/>";
@@ -130,7 +155,7 @@
             
         $link = mysqli_connect("localhost","root","","project",3306);
         
-        $sql = "INSERT INTO recipe (Recipe_name,Recipe_description) VALUES ('$name','$description')";
+        $sql = "INSERT INTO recipe (Recipe_name,Recipe_description,Ingredients,Instructions) VALUES ('$name','$description','$ingredients','$instructions')";
             
         echo "<p class= 'text-success'>Form Successfully submitted!</p>";
         echo "<p class= 'text-success'></p>";

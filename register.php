@@ -34,7 +34,7 @@
             <a class="nav-link" href="browse.php">Browse Creations</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="about.php">About Us</a>
+            <a class="nav-link" href="about.php">Contact Us</a>
         </li>
           </ul>
         
@@ -99,8 +99,14 @@
         $email = $_POST['email'];
         $error = false;
         
-        
-    
+        if(empty($email)){
+            
+            echo "<br/>";
+            echo "<p class= 'text-danger'>Please enter your email</p>";
+            $error = true;
+            
+        }
+            
         if(empty($username)){
             echo "<br/>";
             echo "<p class= 'text-danger'>Please enter your username</p>";
@@ -128,13 +134,7 @@
             $error = true;
             
         }
-        if(empty($email)){
-            
-            echo "<br/>";
-            echo "<p class= 'text-danger'>Please enter your email</p>";
-            $error = true;
-            
-        }
+        
     if($error == true){
         
         echo "<br/>";

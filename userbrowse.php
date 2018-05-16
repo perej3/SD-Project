@@ -40,7 +40,7 @@
             <a class="nav-link" href="userbrowse.php">Browse User Recipes</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="about.php">About Us</a>
+            <a class="nav-link" href="about.php">Contact Us</a>
         </li>
           </ul>
         
@@ -87,81 +87,151 @@
   </div>
 
     
-  <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Search </button>
+  <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Search by name</button>
+  <button type="submit" name="Searching" value="Searching" class="btn btn-primary">Search by ingredients</button>
  
 </form>
-   <?php
-        if(isset($_POST['Submit'])){
+    <?php
+        if(isset($_POST['Searching'])){
         
         $search = $_POST['search'];
             
-            $link = mysqli_connect("localhost", "root", "", "project", 3306);
+                $link = mysqli_connect("localhost", "root", "", "project", 3306);
 								
 				//create the SQL statement
-				$query = "SELECT * FROM recipe WHERE Recipe_name ='$search'";
+				$query = "SELECT * FROM recipe WHERE Ingredients LIKE '%$search%'";
 				
 				//pass the $query to MySQL through the connection ($link)
 				$result = mysqli_query($link, $query);
             
                 
-        }
+        
     ?>
+    <br/>
+    <br/>
     
     <table class="table">
+        <div class="bg-success text-white">
+                <br/>
+                <center><h3>Search results</h3></center>
+                <br/>
+          </div>
 				<tr>
 					<th>Name</th>
 					<th>Description</th>
+                    <th>Instructions</th>
 					
 					
 				</tr>
         
 				<?php
+                    
 					//process $result
 					while ($row = mysqli_fetch_assoc($result)) {
 						echo "<tr>";
 							echo "<td>".$row['Recipe_name']."</td>";
 							echo "<td>".$row['Recipe_description']."</td>";
+                            echo "<td>".$row['Instructions']."</td>";
 						echo "</tr>";
 					}
-					
+        }
 				?>
 			</table>
+  
+    <br/>
+    <br/>
     
-    
-    
-    <!-- SECONd ONE -->
-    <?php
-				
-				$link = mysqli_connect("localhost", "root", "", "project", 3306);
-								
+
+   <?php
+        if(isset($_POST['Submit'])){
+        
+        $search = $_POST['search'];
+            
+            
+				$link = mysqli_connect("localhost", "root", "", "project", 3306);				
 				//create the SQL statement
-				$query = "SELECT * FROM recipe";
+				$query = "SELECT * FROM recipe WHERE Recipe_name LIKE '%$search%'";
 				
 				//pass the $query to MySQL through the connection ($link)
 				$result = mysqli_query($link, $query);
-				
-				
-			?>
-			<table class="table">
+            
+                
+        
+    ?>
+    <br/>
+    <br/>
+    
+    <table class="table">
+        <div class="bg-success text-white">
+                <br/>
+                <center><h3>Search results</h3></center>
+                <br/>
+          </div>
 				<tr>
 					<th>Name</th>
 					<th>Description</th>
+                    <th>Instructions</th>
 					
 					
 				</tr>
+        
 				<?php
+                    
 					//process $result
 					while ($row = mysqli_fetch_assoc($result)) {
 						echo "<tr>";
 							echo "<td>".$row['Recipe_name']."</td>";
 							echo "<td>".$row['Recipe_description']."</td>";
+                            echo "<td>".$row['Instructions']."</td>";
 						echo "</tr>";
 					}
+        }
+				?>
+			</table>
+  
+    <br/>
+    <br/>
+    
+    <center><div class="p-3 mb-2 bg-primary text-white">Recommended Recipes</div></center>
+    
+    <table class="table">
+        
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+                    <th>Instructions</th>
 					
+					
+				</tr>
+        
+				<?php
+        
+                $link = mysqli_connect("localhost", "root", "", "project", 3306);
+								
+				//create the SQL statement
+				$query = "SELECT * FROM recipe WHERE Upvotes > 5";
+				
+				//pass the $query to MySQL through the connection ($link)
+				$result = mysqli_query($link, $query);
+                    
+					//process $result
+					while ($row = mysqli_fetch_assoc($result)) {
+						echo "<tr>";
+							echo "<td>".$row['Recipe_name']."</td>";
+							echo "<td>".$row['Recipe_description']."</td>";
+                            echo "<td>".$row['Instructions']."</td>";
+						echo "</tr>";
+					}
+        
 				?>
 			</table>
     
+           
+    <!-- SECONd ONE -->
     <?php
+				
+
+    
             echo "<br/>";
             echo"<br/>";
            if (isset($_GET['logout']) && $_GET['logout'] == 1){
@@ -180,7 +250,8 @@
             }
     ?>
     </div>
-    
+           
+                   
     </body>
     
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

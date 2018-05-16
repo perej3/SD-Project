@@ -40,7 +40,7 @@
             <a class="nav-link" href="userbrowse.php">Browse User Creations</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="about.php">About Us</a>
+            <a class="nav-link" href="about.php">Contact Us</a>
         </li>
           </ul>
         
@@ -70,10 +70,7 @@
     <label>Username</label>
     <input type="text" class="form-control" id="username" name="username" placeholder="Username">
   </div>
-  <div class="form-group">
-    <label>Password</label>
-    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-  </div>
+  
     
   <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Log In</button>
  
@@ -90,30 +87,30 @@
         
         $email = $_POST['email'];
         $username = $_POST['username'];
-        $password = $_POST['password'];
+        $newpass = rand(1000,9999);
  
         
-    if(empty($email) || empty($username) || empty($password)){
+    if(empty($email) || empty($username)){
                        echo "<p class= 'text-danger'>Make sure that all your fields are entered</p>";
                    }
                    else{
                        $link = mysqli_connect("localhost","root","","project",3306);
                        
                         $sql ="UPDATE Users
-                               SET User_Password = '$password'
+                               SET User_Password = '$newpass'
                                 WHERE Username='$username' AND Email='$email'";
                        
                        $result = mysqli_query($link,$sql) or die(mysqli_error($link));
                        
                        if (mysqli_affected_rows($link) == true){
                            
-                           header("location:login.php");
+                           header("location:rechangep.php");
                         
                            //mail
                            
                            $to = $email;
                            $subject = "Password Change Notification";
-                           $message = "Your password was recently changed!";
+                           $message = "There was a request to change your password. Your new password is: ".$newpass;
                            
                            $retval = mail ($to, $subject, $message);
                            
