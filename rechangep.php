@@ -45,7 +45,7 @@
           </ul>
         
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item active float-right">
+            <li class="nav-item float-right">
                 <a class="nav-link" href="login.php">Login</a>   
             </li>
             <li class="nav-item float-right">
@@ -76,11 +76,11 @@
   </div>
     <div class="form-group">
     <label>New Password</label>
-    <input type="text" class="form-control" id="pass" name="pass" placeholder="New password">
+    <input type="password" class="form-control" id="pass" name="pass" placeholder="New password">
   </div>
     
-  <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Log In</button>
- 
+  <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Change Password</button>
+    
 </form>
 
     <?php
@@ -99,6 +99,7 @@
  
         
     if(empty($email) || empty($username) || empty($code) || empty($password)){
+                       echo "<br/>";
                        echo "<p class= 'text-danger'>Make sure that all your fields are entered</p>";
                    }
         else{

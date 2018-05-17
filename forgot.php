@@ -45,7 +45,7 @@
           </ul>
         
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item active float-right">
+            <li class="nav-item float-right">
                 <a class="nav-link" href="login.php">Login</a>   
             </li>
             <li class="nav-item float-right">
@@ -72,7 +72,7 @@
   </div>
   
     
-  <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Log In</button>
+  <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Send Email</button>
  
 </form>
 
@@ -91,6 +91,7 @@
  
         
     if(empty($email) || empty($username)){
+                       echo "<br/>";
                        echo "<p class= 'text-danger'>Make sure that all your fields are entered</p>";
                    }
                    else{

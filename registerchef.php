@@ -162,7 +162,7 @@
         $sql = "INSERT INTO chefs (Chef_username,Chef_password,email,Name,Surname) VALUES ('$username','$password','$email','$first_name','$last_name')";
         
         mysqli_query($link, $sql);
-        header('Location: '.'login.php');
+        header('Location: '.'loginchef.php');
             
         }
     }

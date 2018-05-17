@@ -154,6 +154,13 @@
         else{
             
         $link = mysqli_connect("localhost","root","","project",3306);
+            
+         
+        $to = "robert.cini@hotmail.com";
+        $subject = "Recipe Addition Notification";
+        $message = "A new recipe has been added to the database!!";
+                           
+        $retval = mail ($to, $subject, $message);
         
         $sql = "INSERT INTO recipe (Recipe_name,Recipe_description,Ingredients,Instructions) VALUES ('$name','$description','$ingredients','$instructions')";
             

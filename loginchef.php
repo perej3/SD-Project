@@ -79,7 +79,7 @@
     <input type="password" class="form-control" id="password" name="password" placeholder="Password">
   </div>
   <div class="form-group">
-    <a href="forgot.php">Forgot password?</a>
+    <a href="forgotchef.php">Forgot password?</a>
     </div>
 
     
@@ -87,7 +87,7 @@
  
 </form>
 
-</div>
+
     <?php
     
     if(isset($_SESSION['username'])){
@@ -127,7 +127,7 @@
 
 
 ?>
-    
+    </div>
     </body>
     
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

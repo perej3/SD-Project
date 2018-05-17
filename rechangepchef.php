@@ -45,17 +45,11 @@
           </ul>
         
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item active float-right">
-                <a class="nav-link" href="login.php">User Login</a>   
+            <li class="nav-item float-right">
+                <a class="nav-link" href="login.php">Login</a>   
             </li>
             <li class="nav-item float-right">
-                <a class="nav-link" href="register.php">Register User</a>    
-            </li>
-            <li class="nav-item float-right">
-                <a class="nav-link" href="loginchef.php">Chef Login</a>   
-            </li>
-            <li class="nav-item float-right">
-                <a class="nav-link" href="registerchef.php">Register Chef</a>   
+                <a class="nav-link" href="register.php">Register</a>    
             </li>
         </ul>
       
@@ -65,69 +59,76 @@
 
         <center><img src="images\logo.png" width="200px" height="200px"></center>
 <div class= "jumbotron">
-            <h3>Login</h3>
-    
-
-<form method="post" action="login.php">
-    
+            <h3>Forgot Password?</h3>
+        
+<form method="post" action="rechangepchef.php">
+  <div class="form-group">
+    <label>Email</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+  </div>
   <div class="form-group">
     <label>Username</label>
     <input type="text" class="form-control" id="username" name="username" placeholder="Username">
   </div>
-  <div class="form-group">
-    <label>Password</label>
-    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+    <div class="form-group">
+    <label>Code</label>
+    <input type="text" class="form-control" id="code" name="code" placeholder="Code">
   </div>
-  <div class="form-group">
-    <a href="forgot.php">Forgot password?</a>
-    </div>
-
+    <div class="form-group">
+    <label>New Password</label>
+    <input type="password" class="form-control" id="pass" name="pass" placeholder="New password">
+  </div>
     
-  <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Log In</button>
- 
+  <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Change Password</button>
+    
 </form>
-
 
     <?php
     
     if(isset($_SESSION['username'])){
+                //user is already logged in, so no need to process form
                 header("location:home.php");
             }
    else{ 
     if(isset($_POST['Submit'])){
         
+        $email = $_POST['email'];
         $username = $_POST['username'];
-        $password = $_POST['password'];
+        $code = $_POST['code'];
+        $password = $_POST['pass'];
  
         
-    if(empty($username) || empty($password)){
+    if(empty($email) || empty($username) || empty($code) || empty($password)){
                        echo "<br/>";
                        echo "<p class= 'text-danger'>Make sure that all your fields are entered</p>";
                    }
-                   else{
+        else{
                        $link = mysqli_connect("localhost","root","","project",3306);
-                       
-                       $sql = "SELECT * FROM users WHERE Username='$username' AND User_password='$password'";
+                       $sql = "SELECT * FROM chefs WHERE Chef_username='$username' AND Chef_password='$code'";
                        
                        $result = mysqli_query($link,$sql) or die(mysqli_error($link));
                        
                        if (mysqli_num_rows($result) == 1){
-                           //log user in
-                           $_SESSION['username'] = $username;
-                           header("location:home.php");
+                        
+                        $sql = "UPDATE chefs
+                               SET Chef_password = '$password'
+                                WHERE Chef_username='$username' AND Email='$email'";
+                       
+                       $result = mysqli_query($link,$sql) or die(mysqli_error($link));
+                           
+                           header("location:loginchef.php");
                        }
-                       else{
-                           echo "<br/>";
-                           echo "<p class= 'text-danger'>Incorrect username or password</p>";
-                       }
+                        
+                       
                    }
     }
    }
 
 
-
 ?>
+    
     </div>
+    
     </body>
     
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
